@@ -16,16 +16,17 @@ model Account {
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?  @db.Text
+  id_token           String? @db.Text
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
@@ -38,55 +39,58 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  WuphfUser     WuphfUser?
 }
 
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
+
   @@unique([identifier, token])
 }
 
 model WuphfUser {
-  id        Int        @id @default(autoincrement())
-  userName  String     @unique @db.VarChar(255)
-  email     String     @unique @db.VarChar(255)
-  createdAt DateTime   @default(now())
-  bio       String     @db.Text
-  wuphfs    Wuphf[]
-  Likes     Likes[]
-  Followers Follower[] @relation("follower")
-  Following Follower[] @relation("followee")
+  user       User       @relation(fields: [providerId], references: [email])
+  providerId String     @unique
+  userName   String     @unique @db.VarChar(255)
+  createdAt  DateTime   @default(now())
+  bio        String     @db.Text
+  wuphfs     Wuphf[]
+  Likes      Likes[]
+  Followers  Follower[] @relation("follower")
+  Following  Follower[] @relation("followee")
 }
 
 model Wuphf {
-  id         Int     @id @default(autoincrement())
-  author     WuphfUser    @relation(fields: [authorId], references: [id])
-  authorId   Int
-  pictureUrl String  @db.VarChar(255)
+  id         Int       @id @default(autoincrement())
+  user       WuphfUser @relation(fields: [userId], references: [providerId])
+  userId     String
+  pictureUrl String    @db.VarChar(255)
+  postBody   String    @db.VarChar(255)
   Likes      Likes[]
 }
 
 model Likes {
-  id      Int   @id @default(autoincrement())
-  user    WuphfUser  @relation(fields: [userId], references: [id])
-  userId  Int
-  wuphf   Wuphf @relation(fields: [wuphfId], references: [id])
+  id      Int       @id @default(autoincrement())
+  user    WuphfUser @relation(fields: [userId], references: [providerId])
+  userId  String
+  wuphf   Wuphf     @relation(fields: [wuphfId], references: [id])
   wuphfId Int
 }
 
 model Follower {
-  id         Int      @id @default(autoincrement())
-  user       WuphfUser     @relation("follower", fields: [userId], references: [id])
-  userId     Int
-  follower   WuphfUser     @relation("followee", fields: [followerId], references: [id])
-  followerId Int
-  createdAt  DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  user       WuphfUser @relation("follower", fields: [userId], references: [providerId])
+  userId     String
+  follower   WuphfUser @relation("followee", fields: [followerId], references: [providerId])
+  followerId String
+  createdAt  DateTime  @default(now())
 }

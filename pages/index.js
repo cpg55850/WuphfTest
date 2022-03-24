@@ -9,25 +9,25 @@ import ViewWuphf from '../components/ViewWuphf'
 import tempPosts from '../assets/tempPosts'
 
 export default function Home() {
-  return (
-    <>
-      {/* <Profile
-        username="John Doe"
-        joinDate="3 weeks ago"
-        bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Posuere vitae enim risus consectetur sed at vitae lectus. Amet purus massa accumsan in. Facilisis nec aliquet ac nulla. Odio et eros, pretium lacus, nulla."
-      /> */}
+  // return (
+  //   <>
+  //     {/* <Profile
+  //       username="John Doe"
+  //       joinDate="3 weeks ago"
+  //       bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Posuere vitae enim risus consectetur sed at vitae lectus. Amet purus massa accumsan in. Facilisis nec aliquet ac nulla. Odio et eros, pretium lacus, nulla."
+  //     /> */}
 
-      <WuphfInput />
+  //     <WuphfInput />
 
-      <ViewWuphf
-        username="John Doe"
-        avatar="sample.jpg"
-        post="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Posuere vitae enim risus consectetur sed at vitae lectus. Amet purus massa accumsan in. Facilisis nec aliquet ac nulla. Odio et eros, pretium lacus, nulla."
-      />
+  //     <ViewWuphf
+  //       username="John Doe"
+  //       avatar="sample.jpg"
+  //       post="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Posuere vitae enim risus consectetur sed at vitae lectus. Amet purus massa accumsan in. Facilisis nec aliquet ac nulla. Odio et eros, pretium lacus, nulla."
+  //     />
 
-      <ViewWuphfs posts={tempPosts} />
-    </>
-  )
+  //     <ViewWuphfs posts={tempPosts} />
+  //   </>
+  // )
 
   const { data: session } = useSession()
 
