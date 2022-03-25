@@ -71,7 +71,7 @@ model WuphfUser {
 
 model Wuphf {
   id         Int       @id @default(autoincrement())
-  user       WuphfUser @relation(fields: [userId], references: [providerId])
+  user       WuphfUser @relation(fields: [userId], references: [userName])
   userId     String
   pictureUrl String    @db.VarChar(255)
   postBody   String    @db.VarChar(255)
@@ -80,7 +80,7 @@ model Wuphf {
 
 model Likes {
   id      Int       @id @default(autoincrement())
-  user    WuphfUser @relation(fields: [userId], references: [providerId])
+  user    WuphfUser @relation(fields: [userId], references: [userName])
   userId  String
   wuphf   Wuphf     @relation(fields: [wuphfId], references: [id])
   wuphfId Int
@@ -88,9 +88,9 @@ model Likes {
 
 model Follower {
   id         Int       @id @default(autoincrement())
-  user       WuphfUser @relation("follower", fields: [userId], references: [providerId])
+  user       WuphfUser @relation("follower", fields: [userId], references: [userName])
   userId     String
-  follower   WuphfUser @relation("followee", fields: [followerId], references: [providerId])
+  follower   WuphfUser @relation("followee", fields: [followerId], references: [userName])
   followerId String
   createdAt  DateTime  @default(now())
 }
