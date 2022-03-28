@@ -60,7 +60,7 @@ model VerificationToken {
 model WuphfUser {
   user       User       @relation(fields: [providerId], references: [email])
   providerId String     @unique
-  userName   String     @unique @db.VarChar(255)
+  userName   String     @db.VarChar(255)
   createdAt  DateTime   @default(now())
   bio        String     @db.Text
   wuphfs     Wuphf[]
@@ -71,7 +71,7 @@ model WuphfUser {
 
 model Wuphf {
   id         Int       @id @default(autoincrement())
-  user       WuphfUser @relation(fields: [userId], references: [userName])
+  user       WuphfUser @relation(fields: [userId], references: [providerId])
   userId     String
   pictureUrl String    @db.VarChar(255)
   postBody   String    @db.VarChar(255)
@@ -80,7 +80,7 @@ model Wuphf {
 
 model Likes {
   id      Int       @id @default(autoincrement())
-  user    WuphfUser @relation(fields: [userId], references: [userName])
+  user    WuphfUser @relation(fields: [userId], references: [providerId])
   userId  String
   wuphf   Wuphf     @relation(fields: [wuphfId], references: [id])
   wuphfId Int
@@ -88,9 +88,9 @@ model Likes {
 
 model Follower {
   id         Int       @id @default(autoincrement())
-  user       WuphfUser @relation("follower", fields: [userId], references: [userName])
+  user       WuphfUser @relation("follower", fields: [userId], references: [providerId])
   userId     String
-  follower   WuphfUser @relation("followee", fields: [followerId], references: [userName])
+  follower   WuphfUser @relation("followee", fields: [followerId], references: [providerId])
   followerId String
   createdAt  DateTime  @default(now())
 }
