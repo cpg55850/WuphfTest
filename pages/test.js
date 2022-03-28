@@ -8,7 +8,7 @@ export default function Test() {
 	const { data: session } = useSession()
 
 	const getUser = async () => {
-		const { data } = await axios.get('api/user/cpg55850@ucmo.edu')
+		const { data } = await axios.get('api/user')
 		setData(data)
 	}
 
